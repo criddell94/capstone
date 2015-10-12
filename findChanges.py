@@ -1,3 +1,8 @@
+'''
+# findChanges.py
+# Connor Riddell
+# 
+'''
 import xml.etree.ElementTree as ET
 import sys
 import re
@@ -43,7 +48,7 @@ for page in root.findall(id_tag + 'page'):
             if text is not None:
                 # compare text to prev_text
                 print "Comparing Texts..."
-                diff = list(Differ().compare(text,prev_text))
+                diff = list(Differ().compare(prev_text,text))
 
                 change_count = 0
                 #print "Checking amount of changes..."
