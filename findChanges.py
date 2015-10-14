@@ -45,6 +45,15 @@ new_dir    = os.getcwd() + '/' + wiki_name + '_findChanges_outputs/'
 if not os.path.exists(new_dir):
     os.makedirs(new_dir)
 
+# total amount of revisions in file & current amount
+revision_total = 0
+current_revision = 2 # start at 2 because the first revision text becomes prev_text
+
+# calculate total number of revisions
+for page in root.findall(id_tag + 'page'):
+    for revision in page.findall(id_tag + 'revision'):
+        revision_total += 1
+
 #------------------------ Main loop to get text and find changes ------------------------------------
 
 # nested for loop to go into the structure properly
@@ -57,8 +66,9 @@ for page in root.findall(id_tag + 'page'):
             first_round = False
         else:
             # Get text from each revision   
-            print "Getting new text..."
+            print "Getting text " + str(current_revision) + " of " + str(revision_total) + " total..."
             text = revision.find(id_tag + 'text').text
+            current_revision += 1 # increment current revision
 
             # check for NoneType so it does NOT error
             if text is not None:
