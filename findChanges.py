@@ -61,15 +61,17 @@ for page in root.findall(id_tag + 'page'):
     for revision in page.findall(id_tag + 'revision'):
         # check if this is first revision found b/c there is nothing to compare it to
         if first_round == True:
+            print "Getting Text 1 of " + str(revision_total) + "..."
             # Get text and set prev_revision then set firstRound to false
             prev_text = revision.find(id_tag + 'text').text
             first_round = False
         else:
             # Get text from each revision   
-            print "Getting text " + str(current_revision) + " of " + str(revision_total) + " total..."
+            print "Getting text " + str(current_revision) + " of " + str(revision_total) + "..."
             text = revision.find(id_tag + 'text').text
+            
             current_revision += 1 # increment current revision
-
+            
             # check for NoneType so it does NOT error
             if text is not None:
                 # compare text to prev_text
@@ -102,7 +104,7 @@ for page in root.findall(id_tag + 'page'):
                     output_text = prev_text.encode('utf8','replace')
                     f2.write(prev_text.encode('utf8', 'replace'))
                     f2.close()
-             
+           
                 prev_text = text # set prev_text for next round
             else:
                 # handle and notify that there was a NONETYPE
