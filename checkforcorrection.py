@@ -1,10 +1,11 @@
 '''
     checkforcorrection.py
     By: Connor Riddell
+    Takes highlighted word and checks whether it has a correction for it
 '''
 
 # global dictionary to check for words
-correction_dict = {"function":"FUNCTION", "test":"TEST"}
+correction_dict = {"𐌼𐌰𐌹𐍃":"𐍅𐌰𐌻𐌳𐌿𐍆𐌽𐌾𐌹𐍃𐌼𐌰𐌽𐍃", "test":"TEST"}
 
 # helper function
 def make_correction(correction_candid):
@@ -16,8 +17,8 @@ def make_correction(correction_candid):
     
     # loop over keys in dictionary and break when correction is found
     for key in correction_dict:
-        if correction_candid == key:
-            correction = correction_dict.get(key)
+        if unicode(correction_candid) == key.decode("utf-8"): # handles unicode comparison
+            correction = correction_dict.get(key).decode("utf-8") # sets correction to the decoded unicode string
             break
 
     return correction
@@ -34,8 +35,8 @@ def check_for_correction(dummy_arg):
 
     # get cursor to write corrected word highlighted in blue
     text = doc.Text
-    vis_cursor = doc.getCurrentController().getViewCursor()
-    nvis_cursor= vis_cursor.getText().createTextCursorByRange(vis_cursor)
+    vis_cursor = doc.getCurrentController().getViewCursor() # visible cursor in OpenOffice
+    nvis_cursor= vis_cursor.getText().createTextCursorByRange(vis_cursor) # not visible cursor place at same place as visible
         
     # Don't really need this right now, maybe later. (loop that is)
     for i in range(count):
